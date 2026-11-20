@@ -1,0 +1,746 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "80f79f8c-9c81-4a31-84f6-260c1bc51f32",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f614e44c-0030-4934-b702-075c275c2f29",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        176,
+        -240
+      ],
+      "webhookId": "80f79f8c-9c81-4a31-84f6-260c1bc51f32"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "=You are a personal assistant. Use the available tools to send emails, read emails, manage Google Calendar events and search the web. Current date and time: {{ $now }}. Timezone: Asia/Calcutta."
+        }
+      },
+      "id": "0621a64d-e5fe-4970-b413-546ac6b68d70",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        448,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "abc123456",
+        "contextWindowLength": 15
+      },
+      "id": "05280acb-ec44-48d2-8067-0f7ff5231a98",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        272,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "omunhale.iitb@gmail.com",
+          "mode": "list",
+          "cachedResultName": "omunhale.iitb@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "id": "b42274cd-3090-47cb-8c84-d08a6b7ff909",
+      "name": "Create an event in Google Calendar",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.4,
+      "position": [
+        496,
+        240
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "mrxPcx7aPFA6qagY",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "id": "5245f190-6d74-4a05-a008-9295050e1b52",
+      "name": "Google search in SerpApi",
+      "type": "n8n-nodes-serpapi.serpApiTool",
+      "typeVersion": 1,
+      "position": [
+        192,
+        240
+      ],
+      "credentials": {
+        "serpApi": {
+          "id": "doquJohknssq8PJZ",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "calendar": {
+          "__rl": true,
+          "value": "omunhale.iitb@gmail.com",
+          "mode": "list",
+          "cachedResultName": "omunhale.iitb@gmail.com"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "id": "d738eb6e-f7ff-4b92-8d52-05ac31f86570",
+      "name": "Fetch Event From Calender",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.4,
+      "position": [
+        640,
+        240
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "mrxPcx7aPFA6qagY",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "omunhale.iitb@gmail.com",
+          "mode": "list",
+          "cachedResultName": "omunhale.iitb@gmail.com"
+        },
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', ``, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', ``, 'string') }}",
+        "options": {}
+      },
+      "id": "1bc3736e-89fd-44b9-8dc0-cd12a16a1e85",
+      "name": "Fetch Mutiple Event From Calender",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.4,
+      "position": [
+        784,
+        240
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "mrxPcx7aPFA6qagY",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_ID', ``, 'string') }}",
+        "simple": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Simplify', ``, 'boolean') }}",
+        "options": {}
+      },
+      "id": "760e1ee2-9fa1-49a8-83a5-0cb7a4d1903a",
+      "name": "Get a message in Gmail",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        240
+      ],
+      "webhookId": "4f839f5b-56d4-456c-8ea5-2ef8e5a0254e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "n7cx5YTAJieoczpK",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "8056fe3b-f073-4fef-bafa-f19e1e21663d",
+      "name": "Send a message in Gmail",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        240
+      ],
+      "webhookId": "39fe3e50-9198-45a0-a623-2a568e329c9f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "n7cx5YTAJieoczpK",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "id": "092891ac-1fba-4dc6-85f6-5e8c896c4c3d",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        784,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Web Search\n**Double click** to edit me. \n1.for  web searching",
+        "height": 256,
+        "width": 256
+      },
+      "id": "75fb7e45-db14-4931-88fa-b1fbd35083dd",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        112,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Calender Related Work\n1. Add event in Calender \n2. Events from calender",
+        "height": 256,
+        "width": 464,
+        "color": 5
+      },
+      "id": "9378f3c7-01c1-4bff-9be8-fcf229fa5bb3",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        448,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Email Related Work\n1. Read Email\n2. Send Email",
+        "height": 256,
+        "width": 336,
+        "color": 3
+      },
+      "id": "e95979b8-bc1b-4b27-b9c8-38575f1b385b",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        -16
+      ],
+      "id": "505ce296-c471-49f2-b5b4-d52880bf9a43",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "UtYfHAXsQy5MfJt8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        144,
+        624
+      ],
+      "id": "09fe2db4-da5d-43c6-80cc-48a050946699",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "content": "## Expence book\n1. Track Expenses\n2. add expence",
+        "height": 256,
+        "width": 464,
+        "color": 2
+      },
+      "id": "589fd760-5466-4aab-9019-b6429f2c87e6",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        112,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1h35RVNYjkBVfa9rdUJfzzww-C8fajxaymsMyiIn24fc",
+          "mode": "list",
+          "cachedResultName": "N8n demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h35RVNYjkBVfa9rdUJfzzww-C8fajxaymsMyiIn24fc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h35RVNYjkBVfa9rdUJfzzww-C8fajxaymsMyiIn24fc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name_', ``, 'string') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', ``, 'string') }}",
+            "roll no ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('roll_no_', ``, 'string') }}",
+            "mobile": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('mobile', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name ",
+              "displayName": "name ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "roll no ",
+              "displayName": "roll no ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "mobile",
+              "displayName": "mobile",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        624
+      ],
+      "id": "d109eceb-a221-431f-a5a5-40aa59ae90e8",
+      "name": "Add Expence",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rpBjeW2LjdwhtGcH",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h35RVNYjkBVfa9rdUJfzzww-C8fajxaymsMyiIn24fc",
+          "mode": "list",
+          "cachedResultName": "N8n demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h35RVNYjkBVfa9rdUJfzzww-C8fajxaymsMyiIn24fc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h35RVNYjkBVfa9rdUJfzzww-C8fajxaymsMyiIn24fc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        624
+      ],
+      "id": "3d56481c-36ba-445d-b0b9-a1edde413490",
+      "name": "Get Expences",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rpBjeW2LjdwhtGcH",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## File Generation\n1. Create file\n2. Read Data",
+        "height": 256,
+        "width": 592,
+        "color": "#245010"
+      },
+      "id": "72682b05-e41a-4c1f-8267-a56006605ce9",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        624,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "folderId": "1ibtOBl_BYCJrbJwLbSfrmdohN4cRKYSq",
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        736,
+        608
+      ],
+      "id": "357f38f3-772f-4a3a-a69f-f600949c330d",
+      "name": "Create new Doc",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "aBjvtzlrPjm6TFre",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Doc_ID_or_URL', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        912,
+        608
+      ],
+      "id": "bf9a151d-3788-44a7-bc56-5d2927f0cfb8",
+      "name": "Get Data From Doc",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "aBjvtzlrPjm6TFre",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Doc_ID_or_URL', ``, 'string') }}",
+        "simple": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Simplify', ``, 'boolean') }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('actionFields0_Old_Text', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        1088,
+        608
+      ],
+      "id": "1aec1809-6d4a-4c8b-bf5a-a54a1b16f19a",
+      "name": "update data",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "aBjvtzlrPjm6TFre",
+          "name": "Google Docs account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "omunhale123.app.n8n.cloud",
+            "user-agent": "python-requests/2.32.4",
+            "content-length": "83",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "35.229.231.193",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "TW",
+            "cf-ray": "a5d09ce0288d7764-TPE",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "35.229.231.193, 172.68.87.34",
+            "x-forwarded-host": "omunhale123.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-91-6c5f66d98-pkfbc",
+            "x-is-trusted": "yes",
+            "x-real-ip": "35.229.231.193"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": "what are todays rates of exchange"
+          },
+          "webhookUrl": "https://omunhale123.app.n8n.cloud/webhook-test/80f79f8c-9c81-4a31-84f6-260c1bc51f32",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google search in SerpApi": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Event From Calender": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Mutiple Event From Calender": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Expence": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Expences": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Data From Doc": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create new Doc": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update data": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "45c6c79f-e0a0-4c3c-b378-80d31f04b157",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6d1bbe90089fcccb885ec982d38ace8c155477d2467f6824d919aa11acfe2984"
+  },
+  "nodeGroups": [],
+  "id": "HaNZdEkWQIluahHW",
+  "tags": []
+}
